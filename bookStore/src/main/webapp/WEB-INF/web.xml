@@ -4,7 +4,10 @@
          xmlns="http://java.sun.com/xml/ns/j2ee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-
+    <context-param>
+        <param-name>encoding</param-name>
+        <param-value>utf-8</param-value>
+    </context-param>
     <servlet>
         <servlet-name>getBooks</servlet-name>
         <servlet-class>com.cypher.bookstore.servlet.BookServlet</servlet-class>
@@ -13,5 +16,45 @@
         <servlet-name>getBooks</servlet-name>
         <url-pattern>/bookServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>userServlet</servlet-name>
+        <servlet-class>com.cypher.bookstore.servlet.UserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userServlet</servlet-name>
+        <url-pattern>/userServlet</url-pattern>
+    </servlet-mapping>
+
+
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>com.cypher.bookstore.filter.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>transactionFilter</filter-name>
+        <filter-class>com.cypher.bookstore.filter.TransactionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>transactionFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error/500.jsp</location>
+    </error-page>
+
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>/WEB-INF/pages/*</url-pattern>
+            <include-prelude>/common/queryCondition.jsp</include-prelude>
+        </jsp-property-group>
+    </jsp-config>
 </web-app>
         

@@ -4,8 +4,8 @@ import com.cypher.bookstore.Dao.BaseDao;
 import com.cypher.bookstore.Dao.TradeDao;
 import com.cypher.bookstore.domain.Trade;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Cypher-Z
@@ -13,14 +13,14 @@ import java.util.Set;
  */
 public class TradeDaoImpl extends BaseDao<Trade> implements TradeDao {
 	@Override
-	public void insert(Trade trade) {
+	public int insert(Trade trade) {
 		String sql = "insert into bookstore.trade (userid, tradetime) values (?,?)";
-		update(sql,trade.getUserId(),trade.getTradeTime());
+		return insert(sql,trade.getUserId(),new Date());
 	}
 
 	@Override
 	public List<Trade> getTradesByUserId(Integer userId) {
-		String sql = "select * from bookstore.trade where userid = ?";
+		String sql = "select * from bookstore.trade where userid = ? order by tradetime desc ";
 		return queryForList(sql,userId);
 	}
 }

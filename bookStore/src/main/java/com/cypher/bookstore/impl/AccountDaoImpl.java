@@ -10,7 +10,7 @@ import com.cypher.bookstore.domain.Account;
  */
 public class AccountDaoImpl extends BaseDao<Account> implements AccountDao {
 	@Override
-	public Account get(Integer accountId) {
+	public Account getAccount(Integer accountId) {
 		String sql = "select * from bookstore.account where accountid = ?";
 		return queryForBean(sql,accountId);
 	}

@@ -1,21 +1,23 @@
+import com.cypher.bookstore.domain.Book;
+import com.cypher.bookstore.domain.ShoppingCartItem;
 import com.cypher.bookstore.impl.BookDaoImpl;
 import com.cypher.bookstore.web.CriteriaBook;
 import com.cypher.bookstore.web.Page;
 import org.junit.Test;
 
-import javax.xml.transform.Source;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
  * @author Cypher-Z
  * @date 2018/8/7 - 21:07
  */
-public class test {
+public class bookDaoTest {
 	private BookDaoImpl bookDao = new BookDaoImpl();
 
 	@Test
-	public void test() throws SQLException {
+	public void test() {
 //		System.out.println(JDBCUtils.getConnection());
 		System.out.println(new Page<>(1).getPageCount());
 	}
@@ -51,14 +53,17 @@ public class test {
 	public void testQueryForScalar() {
 		String sql = "select Remark from bookstore.mybooks where Id = ?";
 
-		System.out.println((String) bookDao.queryForScalar(sql,20));
+		System.out.println((String) bookDao.queryForScalar(sql, 20));
 	}
 
 	@Test
 	public void testBatch() {
-		String sql = "update bookstore.trade set userid = ? where tradeid=?";
-
-		bookDao.batch(sql, new Object[]{2,12},new Object[]{3,13},new Object[]{4,14});
+		String sql = "update bookstore.trade set userid =? where tradeid=?";
+		Object[][] objects = {{1, 12}, {2, 13}, {1, 14}};
+		for (Object[] object : objects) {
+			System.out.println(Arrays.toString(object));
+		}
+		bookDao.batch(sql, objects);
 	}
 
 	@Test
@@ -66,19 +71,22 @@ public class test {
 
 		System.out.println(bookDao.getBook(1));
 	}
+
 	@Test
 	public void testGetTotalBookCount() {
-		CriteriaBook criteriaBook = new CriteriaBook(52,55,1);
+		CriteriaBook criteriaBook = new CriteriaBook(52, 55, 1);
 		System.out.println(bookDao.getTotalBookCount(criteriaBook));
 	}
+
 	@Test
 	public void testGetList() {
-		CriteriaBook criteriaBook = new CriteriaBook(51,60,1);
-		System.out.println(bookDao.getList(criteriaBook,4));
+		CriteriaBook criteriaBook = new CriteriaBook(51, 60, 1);
+		System.out.println(bookDao.getList(criteriaBook, 4));
 	}
+
 	@Test
 	public void testGetPage() {
-		CriteriaBook criteriaBook = new CriteriaBook(50,54,3);
+		CriteriaBook criteriaBook = new CriteriaBook(50, 54, 3);
 		Page page = bookDao.getPage(criteriaBook);
 		System.out.println(page);
 		System.out.println(page.isHasNext());
@@ -88,4 +96,13 @@ public class test {
 		System.out.println(page.getPageCount());
 	}
 
+	@Test
+	public void testBatchUpdateStoreNumberAndSalesNumber() {
+		ArrayList<ShoppingCartItem> items = new ArrayList<>();
+		items.add(new ShoppingCartItem(new Book(1, "Tom", "Java 编程思想", 50, new Date(), 0, 100, "Good Java Book"
+		)));
+		items.add(new ShoppingCartItem(new Book(2, "Tom", "Java", 10, new Date(), 1, 100, "Good"
+		)));
+		bookDao.batchUpdateStoreNumberAndSalesNumber(items);
+	}
 }

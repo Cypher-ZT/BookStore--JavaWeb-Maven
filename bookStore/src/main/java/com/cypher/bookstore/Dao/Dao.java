@@ -8,7 +8,7 @@ import java.util.List;
  */
 public interface Dao<T> {
 
-	long insert(String sql, Object... args);
+	int insert(String sql, Object... args);
 
 	void update(String sql, Object... args);
 

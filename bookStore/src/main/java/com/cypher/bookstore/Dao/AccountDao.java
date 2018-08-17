@@ -7,7 +7,7 @@ import com.cypher.bookstore.domain.Account;
  * @date 2018/8/11 - 19:44
  */
 public interface AccountDao {
-	 Account get(Integer accountId);
+	 Account getAccount(Integer accountId);
 //	 扣除amount数量的钱数
 	 void  updateBalance(Integer accountId,float amount);
 }

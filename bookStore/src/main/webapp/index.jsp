@@ -11,8 +11,8 @@
     <title>Title</title>
 </head>
 <body>
-    <%
-        response.sendRedirect(request.getContextPath()+"/bookServlet?method=getBooks");
-    %>
+<%
+    response.sendRedirect(request.getContextPath() + "/bookServlet?method=getBooks");
+%>
 </body>
 </html>

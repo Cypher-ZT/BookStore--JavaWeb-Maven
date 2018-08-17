@@ -12,6 +12,7 @@ public class TradeItem {
 	private int bookId;
 	private int quantity;
 	private int tradeId;
+	private Book book;
 
 	public TradeItem(int bookId, int quantity, int tradeId) {
 		this.bookId = bookId;

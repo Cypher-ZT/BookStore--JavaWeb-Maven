@@ -3,7 +3,9 @@ package com.cypher.bookstore.domain;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Cypher-Z
@@ -17,6 +19,8 @@ public class Trade {
 
 	private Date tradeTime;
 
+	private List<TradeItem>items = new ArrayList<>();
+
 	public Trade(int userId, Date tradeTime) {
 		this.userId = userId;
 		this.tradeTime = tradeTime;
@@ -24,4 +28,5 @@ public class Trade {
 
 	public Trade() {
 	}
+
 }

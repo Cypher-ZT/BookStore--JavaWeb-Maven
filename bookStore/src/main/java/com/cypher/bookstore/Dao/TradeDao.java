@@ -3,7 +3,6 @@ package com.cypher.bookstore.Dao;
 import com.cypher.bookstore.domain.Trade;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Cypher-Z
@@ -11,7 +10,7 @@ import java.util.Set;
  */
 public interface TradeDao {
 	//	新增交易
-	void insert(Trade trade);
+	int insert(Trade trade);
 
 	//	由userID得到该用户所有的trade集合
 	List<Trade> getTradesByUserId(Integer userId);

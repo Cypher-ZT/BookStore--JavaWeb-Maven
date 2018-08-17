@@ -7,6 +7,8 @@ import com.cypher.bookstore.domain.ShoppingCartItem;
 import com.cypher.bookstore.web.CriteriaBook;
 import com.cypher.bookstore.web.Page;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class BookDaoImpl extends BaseDao<Book> implements BookDao {
 		Page<Book> page = new Page<>(criteriaBook.getPageNo());
 		page.setTotalItemCount(getTotalBookCount(criteriaBook));
 		criteriaBook.setPageNo(page.getPageNo());
-		page.setPageList(getList(criteriaBook,3));
+		page.setPageList(getList(criteriaBook, 3));
 		page.setPageSize(3);
 		return page;
 	}
@@ -53,6 +55,15 @@ public class BookDaoImpl extends BaseDao<Book> implements BookDao {
 
 	@Override
 	public void batchUpdateStoreNumberAndSalesNumber(Collection<ShoppingCartItem> items) {
+		Object[][] args = new Object[items.size()][3];
+		List<ShoppingCartItem> list = new ArrayList<>(items);
+		for (int i = 0; i < items.size(); i++) {
+			args[i][0]=list.get(i).getQuantity();
+			args[i][1]=list.get(i).getQuantity();
+			args[i][2]=list.get(i).getBook().getId();
+		}
 
+		String sql = "update bookstore.mybooks set Storenumber = Storenumber - ?,Salesamount = Salesamount + ? where id = ?";
+		batch(sql,args);
 	}
 }

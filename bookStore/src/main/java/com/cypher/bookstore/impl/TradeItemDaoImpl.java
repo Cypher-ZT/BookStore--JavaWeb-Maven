@@ -2,12 +2,10 @@ package com.cypher.bookstore.impl;
 
 import com.cypher.bookstore.Dao.BaseDao;
 import com.cypher.bookstore.Dao.TradeItemDao;
+import com.cypher.bookstore.domain.ShoppingCartItem;
 import com.cypher.bookstore.domain.TradeItem;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Cypher-Z
@@ -17,13 +15,19 @@ public class TradeItemDaoImpl extends BaseDao<TradeItem> implements TradeItemDao
 	@Override
 	public void batchSave(Collection<TradeItem> tradeItems) {
 		String sql = "insert into bookstore.tradeitem (bookid, quantity, tradeid) VALUES (?,?,?)";
-		
-//     暂留
+		Object[][] args = new Object[tradeItems.size()][3];
+		List<TradeItem> list = new ArrayList<>(tradeItems);
+		for (int i = 0; i < tradeItems.size(); i++) {
+			args[i][0]=list.get(i).getBookId();
+			args[i][1]=list.get(i).getQuantity();
+			args[i][2]=list.get(i).getTradeId();
+		}
+		batch(sql,args);
 	}
 
 	@Override
 	public List<TradeItem> getTradeItemByTradeId(Integer tradeId) {
-		String sql = "select * from bookstore.tradeitem where tradeid = ?";
+		String sql = "select * from bookstore.tradeitem where tradeid = ? order by quantity";
 		return  queryForList(sql,tradeId);
 	}
 }
